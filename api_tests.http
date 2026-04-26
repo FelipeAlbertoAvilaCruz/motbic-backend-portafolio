@@ -1,0 +1,167 @@
+@baseUrl = http://localhost:8000/api
+@authToken = <REEMPLAZA_CON_TU_TOKEN_DE_ACCESO>
+
+### ------------------------------------------------------------------------
+### 1. AUTENTICACIÓN
+### ------------------------------------------------------------------------
+
+### Login (Obtener Token)
+# Usuario y contraseña mockeados en AuthController
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+### Refresh Token
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+Accept: application/json
+
+{
+    "refresh": "<TU_REFRESH_TOKEN>"
+}
+
+
+### ------------------------------------------------------------------------
+### 2. MODELOS
+### ------------------------------------------------------------------------
+
+### Listar Modelos
+GET {{baseUrl}}/modelos
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Crear Modelo
+POST {{baseUrl}}/modelos
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "nombre": "MT-07",
+    "marca": "Yamaha",
+    "anio": "2024",
+    "tipo_motor": "gasolina",
+    "cilindrada": "689cc",
+    "precio": 180000.00,
+    "colores": ["azul", "negro"],
+    "imagen": "https://example.com/mt-07.jpg"
+}
+
+### Buscar Modelos
+GET {{baseUrl}}/modelos/search?query=Yamaha
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+
+### ------------------------------------------------------------------------
+### 3. INVENTARIO
+### ------------------------------------------------------------------------
+
+### Listar Inventario
+GET {{baseUrl}}/inventario
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Crear Item Inventario (Necesitas un ID de modelo válido)
+POST {{baseUrl}}/inventario
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "modelo_id": "<ID_DEL_MODELO_CREADO_ARRIBA>",
+    "color": "azul",
+    "serie": "SERIE12345",
+    "motor": "MOTOR12345",
+    "vin": "VIN12345678901234",
+    "estado": "disponible"
+}
+
+### Conteo Inventario
+GET {{baseUrl}}/inventario/conteo
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+
+### ------------------------------------------------------------------------
+### 4. CLIENTES
+### ------------------------------------------------------------------------
+
+### Listar Clientes
+GET {{baseUrl}}/clientes
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Crear Cliente
+POST {{baseUrl}}/clientes
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "nombres": "Juan",
+    "apellidos": "Pérez",
+    "telefono": "5551234567",
+    "email": "juan@example.com",
+    "rfc": "XAXX010101000",
+    "calle": "Av. Reforma 123",
+    "colonia": "Centro",
+    "ciudad": "CDMX",
+    "estado": "CDMX",
+    "codigo_postal": "06000"
+}
+
+
+### ------------------------------------------------------------------------
+### 5. VENTAS
+### ------------------------------------------------------------------------
+
+### Listar Ventas
+GET {{baseUrl}}/ventas
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Crear Venta
+POST {{baseUrl}}/ventas
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "cliente_id": "<ID_DEL_CLIENTE>",
+    "inventario_id": "<ID_DEL_INVENTARIO>",
+    "fecha": "2025-11-25 14:30:00",
+    "metodo_pago": "transferencia",
+    "precio_total": 185000.00,
+    "estado": "completada"
+}
+
+
+### ------------------------------------------------------------------------
+### 6. SERVICIOS
+### ------------------------------------------------------------------------
+
+### Listar Servicios
+GET {{baseUrl}}/servicios
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Crear Servicio
+POST {{baseUrl}}/servicios
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "cliente_id": "<ID_DEL_CLIENTE>",
+    "inventario_id": "<ID_DEL_INVENTARIO>",
+    "tipo_servicio": "primer-servicio",
+    "fecha_programada": "2025-12-15",
+    "notas": "Primer servicio de mantenimiento",
+    "costo": 1500.00
+}

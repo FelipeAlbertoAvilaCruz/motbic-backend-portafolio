@@ -1,0 +1,580 @@
+{
+	"info": {
+		"_postman_id": "motbic-api-collection",
+		"name": "Motbic API",
+		"description": "Colección de endpoints para la API de Motbic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.access);",
+									"    console.log(\"Token updated\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"<REFRESH_TOKEN>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Modelos",
+			"item": [
+				{
+					"name": "Listar Modelos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/modelos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modelos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Modelos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/modelos/search?query=yamaha",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modelos",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "yamaha"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Modelo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"MT-07\",\n    \"marca\": \"Yamaha\",\n    \"anio\": \"2024\",\n    \"tipo_motor\": \"gasolina\",\n    \"cilindrada\": \"689cc\",\n    \"precio\": 180000.00,\n    \"colores\": [\"azul\", \"negro\"],\n    \"imagen\": \"https://example.com/mt-07.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/modelos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modelos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Modelo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"precio\": 185000.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/modelos/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modelos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Modelo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/modelos/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modelos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventario",
+			"item": [
+				{
+					"name": "Conteo Inventario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inventario/conteo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventario",
+								"conteo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Inventario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inventario",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Item Inventario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"modelo_id\": \"<UUID_MODELO>\",\n    \"color\": \"rojo\",\n    \"serie\": \"SERIE67890\",\n    \"motor\": \"MOTOR67890\",\n    \"vin\": \"VIN09876543210987\",\n    \"estado\": \"disponible\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/inventario",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clientes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombres\": \"Maria\",\n    \"apellidos\": \"Gomez\",\n    \"telefono\": \"5559876543\",\n    \"email\": \"maria@example.com\",\n    \"rfc\": \"GOMA900101HDF\",\n    \"calle\": \"Calle 10 #45\",\n    \"colonia\": \"Juarez\",\n    \"ciudad\": \"CDMX\",\n    \"estado\": \"CDMX\",\n    \"codigo_postal\": \"06600\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clientes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Cliente",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"telefono\": \"5551112233\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clientes/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clientes/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ventas",
+			"item": [
+				{
+					"name": "Listar Ventas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ventas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ventas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nueva Venta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cliente_id\": \"<UUID_CLIENTE>\",\n    \"inventario_id\": \"<UUID_INVENTARIO>\",\n    \"fecha\": \"2025-11-25 14:30:00\",\n    \"metodo_pago\": \"transferencia\",\n    \"precio_total\": 185000.00,\n    \"estado\": \"completada\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ventas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ventas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalle Venta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ventas/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ventas",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Servicios",
+			"item": [
+				{
+					"name": "Listar Servicios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/servicios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"servicios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Servicio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cliente_id\": \"<UUID_CLIENTE>\",\n    \"inventario_id\": \"<UUID_INVENTARIO>\",\n    \"tipo_servicio\": \"primer-servicio\",\n    \"fecha_programada\": \"2025-12-15\",\n    \"notas\": \"Primer servicio de mantenimiento preventivo\",\n    \"costo\": 1500.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/servicios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"servicios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Completar Servicio",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fecha_realizada\": \"2025-12-15\",\n    \"notas\": \"Servicio completado exitosamente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/servicios/:id/completar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"servicios",
+								":id",
+								"completar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,89 @@
+# Guía de Instalación: Entorno de Desarrollo LAMP (Linux, Apache, MySQL, PHP) para Laravel
+
+Sigue estos pasos en tu terminal para configurar el entorno necesario para ejecutar el proyecto `motbic-backend-php`.
+
+## 1. Actualizar el sistema
+Primero, asegúrate de que tu lista de paquetes esté actualizada.
+```bash
+sudo apt update
+```
+
+## 2. Instalar PHP y extensiones necesarias
+Laravel requiere varias extensiones PHP para funcionar. Este comando instala PHP y las más comunes.
+```bash
+sudo apt install php php-cli php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath
+```
+*Verificar instalación:* `php -v`
+
+## 3. Instalar Composer
+Composer es el gestor de dependencias de PHP.
+1. Descarga el instalador:
+   ```bash
+   php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+   ```
+2. Instálalo globalmente:
+   ```bash
+   sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+   ```
+3. Borra el archivo de instalación:
+   ```bash
+   rm composer-setup.php
+   ```
+*Verificar instalación:* `composer -v`
+
+## 4. Instalar MySQL Server
+El motor de base de datos.
+```bash
+sudo apt install mysql-server
+```
+*Configuración de seguridad (opcional pero recomendada):*
+```bash
+sudo mysql_secure_installation
+```
+
+## 5. Instalar phpMyAdmin (Opcional)
+Interfaz web para gestionar bases de datos.
+```bash
+sudo apt install phpmyadmin
+```
+*Durante la instalación:*
+- Servidor web: Marca `apache2` (Espacio para seleccionar, Enter para confirmar).
+- dbconfig-common: Selecciona `Sí`.
+- Contraseña: Crea una contraseña para el usuario phpmyadmin.
+
+Si phpMyAdmin no carga, habilita la extensión mbstring y reinicia Apache:
+```bash
+sudo phpenmod mbstring
+sudo systemctl restart apache2
+```
+
+## 6. Configurar Usuario y Base de Datos para el Proyecto
+No uses `root` directamente. Crea un usuario dedicado.
+
+1. Entra a la consola de MySQL:
+   ```bash
+   sudo mysql
+   ```
+2. Ejecuta estos comandos SQL (cambia `tu_password` por una contraseña segura):
+   ```sql
+   CREATE USER 'motbic_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tu_password';
+   GRANT ALL PRIVILEGES ON *.* TO 'motbic_user'@'localhost';
+   FLUSH PRIVILEGES;
+   EXIT;
+   ```
+
+## 7. Configurar el Proyecto Laravel
+1. Ve a la carpeta `backend`.
+2. Copia el archivo de entorno: `cp .env.example .env`
+3. Edita `.env` con las credenciales creadas en el paso 6:
+   ```ini
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=motbic_db  <-- (Crea esta base de datos vacía primero en MySQL)
+   DB_USERNAME=motbic_user
+   DB_PASSWORD=tu_password
+   ```
+4. Instala dependencias del proyecto: `composer install`
+5. Genera la key de la app: `php artisan key:generate`
+6. Corre las migraciones: `php artisan migrate`
